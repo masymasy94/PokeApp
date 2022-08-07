@@ -13,7 +13,7 @@ public class Mp4Controller {
 
     @GetMapping("/srt/merge")
     public boolean mergeSubsIntoMp4() {
-        service.mergeSrtToMp4InFolder();
+        service.mergeSrtToMp4ForFolders();
         return true;
     }
 }

@@ -1,13 +1,11 @@
 package com.masy.pokeapp.service;
 
 import com.coremedia.iso.boxes.Container;
-import com.googlecode.mp4parser.DataSource;
 import com.googlecode.mp4parser.FileDataSourceImpl;
 import com.googlecode.mp4parser.authoring.Movie;
 import com.googlecode.mp4parser.authoring.builder.DefaultMp4Builder;
 import com.googlecode.mp4parser.authoring.container.mp4.MovieCreator;
 import com.googlecode.mp4parser.authoring.tracks.TextTrackImpl;
-import com.masy.pokeapp.PokeAppApplication;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -23,30 +21,42 @@ import java.util.stream.Collectors;
 @Service
 public class Mp4Service {
 
-    static final String FOLDER_PATH = "E:\\TorrentDownloads\\social media\\Udemy - Social Media Marketing Mastery 2022";
+    static final String FOLDER_PATH = "E:\\TorrentDownloads\\social media\\Udemy - Ultimate SEO, Social Media, & Digital Marketing Course 2022";
 
-    public void mergeSrtToMp4InFolder(){
+    public void mergeSrtToMp4ForFolders(){
+        File f = new File(FOLDER_PATH);
+        Arrays.asList(Objects.requireNonNull(f.listFiles()))
+                .forEach(file ->
+                        mergeSrtToMp4InFolder(file.getPath())
+                );
+    }
 
-        System.out.println("start");
+    public void mergeSrtToMp4InFolder(String folderPath){
+
+        System.out.println("start for path " + folderPath);
 
         // get list of mp4 files from directory
-        File folder = new File(FOLDER_PATH);
+        File folder = new File(folderPath);
         List<String> allVids = Arrays.stream(Objects.requireNonNull(folder.listFiles()))
                 .map(File::getName)
                 .filter(name -> name.contains(".mp4"))
                 .collect(Collectors.toCollection(ArrayList::new));
 
-        allVids.forEach(this::tryToAddSubtitles);
+        allVids.forEach(v -> tryToAddSubtitles(v, folderPath));
 
+
+        System.out.println("end for path " + folderPath);
     }
 
 
-    public void tryToAddSubtitles(String vidName) {
+    public void tryToAddSubtitles(String vidName, String folderPath) {
 
         String srtName = vidName.substring(0, vidName.length()-4);
-        String pathSrt = MessageFormat.format("{0}\\{1}.srt", FOLDER_PATH, srtName);
-        String pathVideo = MessageFormat.format("{0}\\{1}", FOLDER_PATH, vidName);
-        String pathOut = MessageFormat.format("{0}\\{1}\\{2}", FOLDER_PATH, "merged", vidName);
+        String pathSrt = MessageFormat.format("{0}\\{1}.srt", folderPath, srtName);
+        String pathVideo = MessageFormat.format("{0}\\{1}", folderPath, vidName);
+        String pathOut = MessageFormat.format("{0}\\{1}\\{2}", folderPath, "merged", vidName);
+
+        makeMergedDirectoryIfNotPresent(folderPath);
 
         if (!new File(pathOut).exists()){
 
@@ -56,6 +66,13 @@ public class Mp4Service {
 
         }
 
+    }
+
+    private void makeMergedDirectoryIfNotPresent(String folderPath) {
+        File mergedFolder = new File(MessageFormat.format("{0}\\{1}", folderPath, "merged"));
+        if (!mergedFolder.exists()){
+            mergedFolder.mkdir();
+        }
     }
 
     private void addSubsAndSaveFile(String pathSrt, String pathVideo, String pathOut) {
@@ -68,7 +85,7 @@ public class Mp4Service {
             System.out.println("done file " + pathOut);
         }catch (Exception e){
             // log?
-            System.out.println("oops"+ pathOut);
+            System.out.println("oops "+ pathOut);
         }
     }
 
@@ -95,7 +112,11 @@ public class Mp4Service {
         LineNumberReader r = new LineNumberReader(new InputStreamReader(is, StandardCharsets.UTF_8));
         TextTrackImpl track = new TextTrackImpl();
 
-        while (r.readLine() != null) {
+        String n = r.readLine();
+        while (n != null && n.length() == 1) {
+            n = r.readLine();
+        }
+        while (n != null && n.length()>1) {
             String timeString = r.readLine();
             StringBuilder lineString = new StringBuilder();
             String s;
