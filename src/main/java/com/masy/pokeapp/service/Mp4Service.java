@@ -112,12 +112,11 @@ public class Mp4Service {
         LineNumberReader r = new LineNumberReader(new InputStreamReader(is, StandardCharsets.UTF_8));
         TextTrackImpl track = new TextTrackImpl();
 
-        String n = r.readLine();
-        while (n != null && n.length() == 1) {
-            n = r.readLine();
+        String timeString = r.readLine();
+        while (timeString != null && timeString.length() == 1) {
+            timeString = r.readLine();
         }
-        while (n != null && n.length()>1) {
-            String timeString = r.readLine();
+        while (timeString != null && timeString.length()>1) {
             StringBuilder lineString = new StringBuilder();
             String s;
             while (!((s = r.readLine()) == null || s.trim().equals(""))) {
