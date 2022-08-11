@@ -1,0 +1,1 @@
+CREATE TABLE pokemon ( id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, strenght INTEGER, type TEXT, second_type TEXT, is_evolved TEXT, is_two_times_evolved TEXT )

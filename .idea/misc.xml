@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/AndroidApps/app/src/main/res/layout/activity_main.xml" value="0.5280797101449275" />
+        <entry key="..\:/AndroidApps/app/src/main/res/layout/content_main.xml" value="0.5541666666666667" />
+        <entry key="..\:/AndroidApps/app/src/main/res/layout/pokedex_activity.xml" value="0.49753208292201384" />
+        <entry key="..\:/AndroidApps/app/src/main/res/layout/prova.xml" value="0.553125" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
