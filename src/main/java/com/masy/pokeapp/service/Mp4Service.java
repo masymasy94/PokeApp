@@ -1,34 +1,35 @@
 package com.masy.pokeapp.service;
 
-import com.coremedia.iso.boxes.Container;
-import com.googlecode.mp4parser.FileDataSourceImpl;
-import com.googlecode.mp4parser.authoring.Movie;
-import com.googlecode.mp4parser.authoring.builder.DefaultMp4Builder;
-import com.googlecode.mp4parser.authoring.container.mp4.MovieCreator;
-import com.googlecode.mp4parser.authoring.tracks.TextTrackImpl;
 import org.apache.commons.lang3.StringUtils;
+import org.mp4parser.Container;
+import org.mp4parser.muxer.Movie;
+import org.mp4parser.muxer.builder.DefaultMp4Builder;
+import org.mp4parser.muxer.container.mp4.MovieCreator;
+import org.mp4parser.muxer.tracks.TextTrackImpl;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class Mp4Service {
 
-    static final String FOLDER_PATH = "E:\\TorrentDownloads\\social media\\Udemy - Ultimate SEO, Social Media, & Digital Marketing Course 2022";
 
     public void mergeSrtToMp4ForFolders(){
-        File f = new File(FOLDER_PATH);
-        Arrays.asList(Objects.requireNonNull(f.listFiles()))
-                .forEach(file ->
-                        mergeSrtToMp4InFolder(file.getPath())
-                );
+        File f = new File("E:\\TorrentDownloads\\social media\\Udemy - Ultimate SEO, Social Media, & Digital Marketing Course 2022\\13. SUCCESS, FREELANCING & HIGH VALUE CLIENTS");
+
+//        if (Arrays.stream(f.listFiles()).noneMatch(File::isDirectory)) {
+            mergeSrtToMp4InFolder(f.getPath());
+//        } else {
+//            Arrays.asList(Objects.requireNonNull(f.listFiles()))
+//                    .forEach(file ->
+//                            mergeSrtToMp4InFolder(file.getPath())
+//                    );
+//        }
+
     }
 
     public void mergeSrtToMp4InFolder(String folderPath){
@@ -42,7 +43,9 @@ public class Mp4Service {
                 .filter(name -> name.contains(".mp4"))
                 .collect(Collectors.toCollection(ArrayList::new));
 
-        allVids.forEach(v -> tryToAddSubtitles(v, folderPath));
+        allVids.forEach(v ->
+                tryToAddSubtitles(v, folderPath)
+        );
 
 
         System.out.println("end for path " + folderPath);
@@ -72,21 +75,28 @@ public class Mp4Service {
         File mergedFolder = new File(MessageFormat.format("{0}\\{1}", folderPath, "merged"));
         if (!mergedFolder.exists()){
             mergedFolder.mkdir();
+            mergedFolder.setReadable(true);
+            mergedFolder.setWritable(true);
+            mergedFolder.setExecutable(true);
+
         }
     }
 
     private void addSubsAndSaveFile(String pathSrt, String pathVideo, String pathOut) {
+        System.out.println("Parsing " + pathVideo);
         try {
+
             TextTrackImpl subs = parse(new FileInputStream(pathSrt));
-            Movie videoMovie = MovieCreator.build(new FileDataSourceImpl(new File(pathVideo)));
+            Movie videoMovie = MovieCreator.build(pathVideo);
 
             addSubtitlesToMp4(videoMovie, subs);
             writeOutputMovie(pathOut, videoMovie);
-            System.out.println("done file " + pathOut);
-        }catch (Exception e){
+
+        }catch (Error | Exception e ){
             // log?
-            System.out.println("oops "+ pathOut);
+            System.out.println("--------------------OOOOOOOOOOOOPPPSSSSSSSSSSSSSS "+ pathOut);
         }
+        System.out.println("done file " + pathOut);
     }
 
     private void writeOutputMovie(String pathOut, Movie videoMovie) throws IOException {
@@ -112,24 +122,34 @@ public class Mp4Service {
         LineNumberReader r = new LineNumberReader(new InputStreamReader(is, StandardCharsets.UTF_8));
         TextTrackImpl track = new TextTrackImpl();
 
-        String timeString = r.readLine();
-        while (timeString != null && timeString.length() == 1) {
-            timeString = r.readLine();
-        }
-        while (timeString != null && timeString.length()>1) {
+        String timeString = r.readLine(); // prima riga
+        while (timeString != null) {
+
+            while (!timeString.contains("-->")){
+                timeString = r.readLine();
+                if (timeString == null)
+                    return track;
+            }
+
             StringBuilder lineString = new StringBuilder();
             String s;
-            while (!((s = r.readLine()) == null || s.trim().equals(""))) {
+            while ( !( (s = r.readLine()) == null || s.trim().equals("") || s.length()==1)) { // prende le righe da inserire per quel determinato momento
                 lineString.append(s).append("\n");
             }
-            long startTime = parseTimeToMillis(StringUtils.trimToEmpty(timeString.split("-->")[0]));
-            long endTime = parseTimeToMillis(StringUtils.trimToEmpty(timeString.split("-->")[1]));
+            long startTime = parseTimeToMillis(StringUtils.trimToEmpty(timeString.split("-->")[0])); // inizio sottotitolo
+            long endTime = parseTimeToMillis(StringUtils.trimToEmpty(timeString.split("-->")[1])); // fine sottotitolo
             track.getSubs().add(new TextTrackImpl.Line(startTime, endTime, lineString.toString()));
+
+            timeString = r.readLine(); // riga dopo il testo da inserire
         }
         return track;
     }
 
     public long parseTimeToMillis(String time) {
+        if (time.split(",").length<2){
+            System.out.println("STOP HERE MF");
+        }
+
         String seconds = time.split(",")[0];
         String millis = time.split(",")[1];
         String[] times = seconds.split(":");
@@ -139,4 +159,16 @@ public class Mp4Service {
         result += Long.parseLong(times[0])*1000*60*60; // hrs to millis
         return result;
     }
+
+    public void deleteAllSrt(String path) {
+
+        File f = new File(path);
+
+        File[] arr = f.listFiles();
+        List<File> list = arr == null? Collections.emptyList() : Arrays.asList(arr);
+
+
+    }
+
+
 }
