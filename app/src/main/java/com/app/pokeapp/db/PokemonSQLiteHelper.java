@@ -98,7 +98,7 @@ public class PokemonSQLiteHelper extends SQLiteOpenHelper {
 
     // todo
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public List<Pokemon> getAllPokemon(){
+    public List<Pokemon> getAllPokemonFromDB(){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_POKEMON,
                 new String[]{"id", "name", "strenght", "type", "second_type", "is_evolved", "is_two_times_evolved"},
@@ -112,9 +112,12 @@ public class PokemonSQLiteHelper extends SQLiteOpenHelper {
             pkm.name = cursor.getString(1);
             pkm.strenght = cursor.getInt(2);
             pkm.types.add(0, PokemonTypesUtils.getValueOrNull(cursor.getString(3)));
-            pkm.types.add(1, PokemonTypesUtils.getValueOrNull(cursor.getString(4)));
             pkm.isEvolved = booleanTrueValues.contains(StringUtils.trimToEmpty(cursor.getString(5)));
             pkm.isEvolvedTwoTimes = booleanTrueValues.contains(StringUtils.trimToEmpty(cursor.getString(6)));
+            String secondType = cursor.getString(4);
+            if (StringUtils.isNotEmpty(secondType)){
+                pkm.types.add(1, PokemonTypesUtils.getValueOrNull(secondType));
+            }
             all.add(pkm);
         }
 

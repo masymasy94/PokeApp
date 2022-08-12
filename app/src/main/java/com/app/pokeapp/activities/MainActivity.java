@@ -20,20 +20,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setButtonListenerPokedex();
-        dropPokemonTable(); //todo da rimuovere in seguito
+        dropPokemonTable(); // TODO remove
         initializeDb();
+        setButtonListenerPokedex();
     }
 
     private void dropPokemonTable() {
         PokemonSQLiteHelper dbHelper = new PokemonSQLiteHelper(this);
+        dbHelper.dropPokemonTable();
         dbHelper.close();
     }
 
     private void initializeDb() {
         PokemonSQLiteHelper dbHelper = new PokemonSQLiteHelper(this);
 
-        if (dbHelper.getAllPokemon().isEmpty()){
+        if (dbHelper.getAllPokemonFromDB().isEmpty()){
             dbHelper.insertFirstGen();
         }
 

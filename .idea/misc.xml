@@ -3,9 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidApps/app/src/main/res/drawable-v24/small_round_corners.xml" value="0.332" />
+        <entry key="..\:/AndroidApps/app/src/main/res/drawable/round_corners.xml" value="0.331" />
         <entry key="..\:/AndroidApps/app/src/main/res/layout/activity_main.xml" value="0.5280797101449275" />
         <entry key="..\:/AndroidApps/app/src/main/res/layout/content_main.xml" value="0.5541666666666667" />
         <entry key="..\:/AndroidApps/app/src/main/res/layout/pokedex_activity.xml" value="0.49753208292201384" />
+        <entry key="..\:/AndroidApps/app/src/main/res/layout/pokemon_pop_up_window.xml" value="0.20095238095238097" />
         <entry key="..\:/AndroidApps/app/src/main/res/layout/prova.xml" value="0.553125" />
       </map>
     </option>
