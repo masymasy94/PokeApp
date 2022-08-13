@@ -83,14 +83,21 @@ public class PokedexActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-
                 View popupView = inflater.inflate(R.layout.pokemon_pop_up_window, null);
                 final PopupWindow popupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
 
                 TextView pokemonName = (TextView) popupView.findViewById(R.id.pokemon_name);
                 pokemonName.setText(pokemon.name);
-                TextView pokemonTypes = (TextView) popupView.findViewById(R.id.pokemon_types);
-                pokemonTypes.setText(PokemonTypesUtils.getCombinedType(pokemon).toUpperCase());
+                TextView pokemonType = (TextView) popupView.findViewById(R.id.pokemon_type);
+                pokemonType.setText(pokemon.types.get(0).name().toUpperCase());
+                //todo - colore sfondo
+
+                if (pokemon.types.size()>1) {
+                    TextView pokemonType2 = (TextView) popupView.findViewById(R.id.pokemon_second_type);
+                    pokemonType2.setText(pokemon.types.get(1).name().toUpperCase());
+                    pokemonType2.setBackgroundTintList(getResources().getColorStateList(R.color.super_light_blue));
+                    //todo - colore sfondo
+                }
 
                 popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 

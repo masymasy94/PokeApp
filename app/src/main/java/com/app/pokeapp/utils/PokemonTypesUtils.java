@@ -15,7 +15,7 @@ public class PokemonTypesUtils {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static PokemonType getValueOrNull(String type){
 
-        return type == null ? null : Arrays.asList(PokemonType.values()).stream()
+        return type == null ? null : Arrays.stream(PokemonType.values())
                 .filter(e -> e.name().equals(type.toUpperCase()))
                 .findFirst()
                 .orElse(null);
