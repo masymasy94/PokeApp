@@ -44,20 +44,21 @@ public class PokemonSQLiteHelper extends SQLiteOpenHelper {
 //
 //        db.execSQL(CREATE_POKEMON_TABLE);
 
-        createTable();
+        createTable(db);
     }
 
-    public void createTable(){
+    public void createTable(SQLiteDatabase db){
         try {
-            executeScript(R.raw.pokemon_create_table);
+            executeScript(R.raw.pokemon_create_table, db);
         } catch (IOException e) {
             e.printStackTrace();
         }
     };
 
     public void insertFirstGen(){
+        SQLiteDatabase db = getWritableDatabase();
         try {
-            executeScript(R.raw.pokemon_insert_1_gen);
+            executeScript(R.raw.pokemon_insert_1_gen, db);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -75,8 +76,7 @@ public class PokemonSQLiteHelper extends SQLiteOpenHelper {
         this.onCreate(db);
     }
 
-    private void executeScript(int resourceId) throws IOException {
-        SQLiteDatabase db = this.getWritableDatabase();
+    private void executeScript(int resourceId, SQLiteDatabase db) throws IOException {
 
         InputStream insertsStream = context.getResources().openRawResource(resourceId);
         BufferedReader insertReader = new BufferedReader(new InputStreamReader(insertsStream));
@@ -89,7 +89,7 @@ public class PokemonSQLiteHelper extends SQLiteOpenHelper {
         }
 
         insertReader.close();
-        db.close();
+//        db.close();
     }
 
 //    -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -122,7 +122,7 @@ public class PokemonSQLiteHelper extends SQLiteOpenHelper {
         }
 
         cursor.close();
-        db.close();
+//        db.close();
         return all;
     };
 
@@ -140,7 +140,7 @@ public class PokemonSQLiteHelper extends SQLiteOpenHelper {
 
 
         db.insert(TABLE_POKEMON, null, values);
-        db.close();
+//        db.close();
     }
 
     public Pokemon getPokemon(int id){

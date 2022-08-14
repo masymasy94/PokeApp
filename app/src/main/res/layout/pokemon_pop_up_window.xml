@@ -59,16 +59,17 @@
             android:layout_gravity="center">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/pokemon_image"
                 android:layout_width="0dp"
                 android:layout_height= "match_parent"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:layout_weight="1"
-                android:tint="@color/super_light_red"
+
                 app:srcCompat="@drawable/round_corners"
                 />
+            <!--                android:tint="@color/super_light_red"-->
         </LinearLayout>
 
 
@@ -91,6 +92,15 @@
             android:gravity="center"
             android:textSize="20sp"
             android:background="@drawable/small_round_corners"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/pokemon_move"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:gravity="start"
+            android:textSize="20sp"
             android:textColor="@color/black"/>
 
     </LinearLayout>

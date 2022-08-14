@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -16,7 +17,6 @@ import com.app.pokeapp.R;
 import com.app.pokeapp.data.custom.PokemonButton;
 import com.app.pokeapp.data.dto.Pokemon;
 import com.app.pokeapp.db.PokemonSQLiteHelper;
-import com.app.pokeapp.utils.PokemonTypesUtils;
 
 import java.util.Comparator;
 import java.util.List;
@@ -86,17 +86,25 @@ public class PokedexActivity extends AppCompatActivity {
                 View popupView = inflater.inflate(R.layout.pokemon_pop_up_window, null);
                 final PopupWindow popupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
 
+
+                ImageView pokemonImage = (ImageView) popupView.findViewById(R.id.pokemon_image);
+                pokemonImage.setImageTintList(getResources().getColorStateList(pokemon.types.get(0).getColor()));
+
+
                 TextView pokemonName = (TextView) popupView.findViewById(R.id.pokemon_name);
                 pokemonName.setText(pokemon.name);
                 TextView pokemonType = (TextView) popupView.findViewById(R.id.pokemon_type);
                 pokemonType.setText(pokemon.types.get(0).name().toUpperCase());
-                //todo - colore sfondo
+                pokemonType.setBackgroundTintList(getResources().getColorStateList(pokemon.types.get(0).getColor()));
+
+
+                TextView pokemonMove = (TextView) popupView.findViewById(R.id.pokemon_move);
+                pokemonMove.setText("mossa!! WooOooooO0o0ooOOoo --> " + pokemon.strenght); // todo cambiare quando ci sono i nomi delle mosse
 
                 if (pokemon.types.size()>1) {
                     TextView pokemonType2 = (TextView) popupView.findViewById(R.id.pokemon_second_type);
                     pokemonType2.setText(pokemon.types.get(1).name().toUpperCase());
-                    pokemonType2.setBackgroundTintList(getResources().getColorStateList(R.color.super_light_blue));
-                    //todo - colore sfondo
+                    pokemonType2.setBackgroundTintList(getResources().getColorStateList(pokemon.types.get(1).getColor()));
                 }
 
                 popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
