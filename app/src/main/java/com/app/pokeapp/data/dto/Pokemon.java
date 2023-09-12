@@ -12,6 +12,9 @@ public class Pokemon {
     public List<PokemonType> types = new ArrayList<>();
     public boolean isEvolved;
     public boolean isEvolvedTwoTimes;
+    public String move;
+
+
 
     public String getName(){
         return name;

@@ -11,7 +11,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/charizard_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.PokeApp"
+        android:theme="@style/Theme.PokeApp_PURPLE"
         tools:targetApi="31">
         <activity
             android:name="com.app.pokeapp.activities.MainActivity"

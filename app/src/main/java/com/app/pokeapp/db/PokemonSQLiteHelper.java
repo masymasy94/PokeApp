@@ -36,14 +36,6 @@ public class PokemonSQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
-//        String CREATE_POKEMON_TABLE = "CREATE TABLE "
-//                + TABLE_POKEMON + " ( " +
-//                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-//                "name TEXT )";
-//
-//        db.execSQL(CREATE_POKEMON_TABLE);
-
         createTable(db);
     }
 
@@ -53,7 +45,7 @@ public class PokemonSQLiteHelper extends SQLiteOpenHelper {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    };
+    }
 
     public void insertFirstGen(){
         SQLiteDatabase db = getWritableDatabase();
@@ -101,7 +93,7 @@ public class PokemonSQLiteHelper extends SQLiteOpenHelper {
     public List<Pokemon> getAllPokemonFromDB(){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_POKEMON,
-                new String[]{"id", "name", "strenght", "type", "second_type", "is_evolved", "is_two_times_evolved"},
+                new String[]{"id", "name", "strenght", "type", "second_type", "is_evolved", "is_two_times_evolved", "move"},
                 null, null,
                 null, null, null, null);
 
@@ -114,6 +106,7 @@ public class PokemonSQLiteHelper extends SQLiteOpenHelper {
             pkm.types.add(0, PokemonTypesUtils.getValueOrNull(cursor.getString(3)));
             pkm.isEvolved = booleanTrueValues.contains(StringUtils.trimToEmpty(cursor.getString(5)));
             pkm.isEvolvedTwoTimes = booleanTrueValues.contains(StringUtils.trimToEmpty(cursor.getString(6)));
+            pkm.move = cursor.getString(7);
             String secondType = cursor.getString(4);
             if (StringUtils.isNotEmpty(secondType)){
                 pkm.types.add(1, PokemonTypesUtils.getValueOrNull(secondType));
@@ -122,7 +115,6 @@ public class PokemonSQLiteHelper extends SQLiteOpenHelper {
         }
 
         cursor.close();
-//        db.close();
         return all;
     };
 
@@ -137,6 +129,7 @@ public class PokemonSQLiteHelper extends SQLiteOpenHelper {
         values.put("second_type",pokemon.types.size()>1? (pokemon.types.get(1) == null ? null : pokemon.types.get(1).name()) : null);
         values.put("is_evolved", pokemon.isEvolved);
         values.put("is_two_times_evolved", pokemon.isEvolvedTwoTimes);
+        values.put("move", pokemon.move);
 
 
         db.insert(TABLE_POKEMON, null, values);

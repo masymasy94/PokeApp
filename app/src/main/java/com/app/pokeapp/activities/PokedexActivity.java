@@ -1,31 +1,38 @@
 package com.app.pokeapp.activities;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.TextView;
-
+import android.widget.*;
 import com.app.pokeapp.R;
 import com.app.pokeapp.data.custom.PokemonButton;
 import com.app.pokeapp.data.dto.Pokemon;
+import com.app.pokeapp.data.enums.PokemonType;
 import com.app.pokeapp.db.PokemonSQLiteHelper;
+import com.app.pokeapp.utils.PokemonTypesUtils;
+import org.apache.commons.lang3.StringUtils;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class PokedexActivity extends AppCompatActivity {
 
-    LinearLayout ll = null;
+    LinearLayout              ll = null;
     LinearLayout.LayoutParams lp = null;
+
+    int THEME_COLOR = 0;
 
 
     @Override
@@ -38,8 +45,13 @@ public class PokedexActivity extends AppCompatActivity {
     }
 
     private void setInstanceValues() {
-        ll = (LinearLayout)findViewById(R.id.pokedex_ll);
-        lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        ll = findViewById(R.id.pokedex_ll);
+        lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                                           LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        TypedValue typedValue = new TypedValue();
+        getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.colorPrimary, typedValue, true);
+        THEME_COLOR = typedValue.data;
     }
 
     private void showPokemon() {
@@ -47,7 +59,7 @@ public class PokedexActivity extends AppCompatActivity {
         allPk.sort(Comparator.comparing(Pokemon::getName));
         allPk.forEach(this::addPokemonButton);
 
-        if (allPk.isEmpty()){
+        if (allPk.isEmpty()) {
             showNoPokemonFoundMessage();
         }
     }
@@ -60,73 +72,206 @@ public class PokedexActivity extends AppCompatActivity {
     }
 
     private List<Pokemon> getAllPokemon() {
-        PokemonSQLiteHelper db = new PokemonSQLiteHelper(this);
-        List<Pokemon> allPk = db.getAllPokemonFromDB();
+        PokemonSQLiteHelper db    = new PokemonSQLiteHelper(this);
+        List<Pokemon>       allPk = db.getAllPokemonFromDB();
         db.close();
         return allPk;
     }
 
-    private void addPokemonButton(Pokemon pokemon){
+    @SuppressLint("ResourceType")
+    private void addPokemonButton(Pokemon pokemon) {
         PokemonButton btn = new PokemonButton(this);
+
+        btn.setTextSize(20);
+        btn.setBackground(getResources().getDrawable(R.drawable.small_round_corners));
         btn.setText(pokemon.name);
-        btn.setBackgroundTintList(getResources().getColorStateList(R.color.super_light_red));
+        btn.setBackgroundTintList(ColorStateList.valueOf(THEME_COLOR));
         btn.setPokemon(pokemon);
         btn.setId(pokemon.id);
-        btn.setOnClickListener(getOpenPokemonPopUpOnClickListener(pokemon));
-        ll.addView(btn, lp);
+        btn.setOnClickListener(getOpenPokemonPopUpOnClickListener(pokemon, this));
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(lp);
+        layoutParams.setMargins(20, 20, 20, 20);
+        ll.addView(btn, layoutParams);
     }
 
-    private View.OnClickListener getOpenPokemonPopUpOnClickListener(Pokemon pokemon) {
+    private View.OnClickListener getOpenPokemonPopUpOnClickListener(Pokemon pokemon,
+                                                                    Context context) {
         return new View.OnClickListener() {
 
+            @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View view) {
 
-                LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-                View popupView = inflater.inflate(R.layout.pokemon_pop_up_window, null);
-                final PopupWindow popupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
+                LayoutInflater inflater  = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+                View           popupView = inflater.inflate(R.layout.pokemon_pop_up_window, null);
+                final PopupWindow popupWindow = new PopupWindow(popupView, LinearLayout.LayoutParams.MATCH_PARENT,
+                                                                LinearLayout.LayoutParams.MATCH_PARENT, true);
 
 
-                ImageView pokemonImage = (ImageView) popupView.findViewById(R.id.pokemon_image);
-                pokemonImage.setImageTintList(getResources().getColorStateList(pokemon.types.get(0).getColor()));
+                ImageView pokemonImage = popupView.findViewById(R.id.pokemon_image);
+                pokemonImage.setImageTintList(getResources().getColorStateList(pokemon.types.get(0)
+                                                                                            .getColor()));
 
 
-                TextView pokemonName = (TextView) popupView.findViewById(R.id.pokemon_name);
+                TextView pokemonName = popupView.findViewById(R.id.pokemon_name);
                 pokemonName.setText(pokemon.name);
-                TextView pokemonType = (TextView) popupView.findViewById(R.id.pokemon_type);
-                pokemonType.setText(pokemon.types.get(0).name().toUpperCase());
-                pokemonType.setBackgroundTintList(getResources().getColorStateList(pokemon.types.get(0).getColor()));
+                TextView pokemonType = popupView.findViewById(R.id.pokemon_type);
+                pokemonType.setText(pokemon.types.get(0)
+                                                 .name()
+                                                 .toUpperCase());
+                pokemonType.setBackgroundTintList(getResources().getColorStateList(pokemon.types.get(0)
+                                                                                                .getColor()));
 
 
-                TextView pokemonMove = (TextView) popupView.findViewById(R.id.pokemon_move);
-                pokemonMove.setText("mossa!! WooOooooO0o0ooOOoo --> " + pokemon.strenght); // todo cambiare quando ci sono i nomi delle mosse
+                TextView pokemonMove = popupView.findViewById(R.id.pokemon_move);
+                pokemonMove.setText(StringUtils.trimToEmpty(pokemon.move)
+                                               .toUpperCase());
+                pokemonMove.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                pokemonMove.setBackgroundTintList(getResources().getColorStateList(pokemon.types.get(0)
+                                                                                           .getColor()));
 
-                if (pokemon.types.size()>1) {
-                    TextView pokemonType2 = (TextView) popupView.findViewById(R.id.pokemon_second_type);
-                    pokemonType2.setText(pokemon.types.get(1).name().toUpperCase());
-                    pokemonType2.setBackgroundTintList(getResources().getColorStateList(pokemon.types.get(1).getColor()));
+                TextView pokemonMovePower = popupView.findViewById(R.id.move_power);
+                pokemonMovePower.setText("" + pokemon.strenght);
+                pokemonMovePower.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                pokemonMovePower.setBackgroundTintList(getResources().getColorStateList(pokemon.types.get(0)
+                                                                                                .getColor()));
+
+                if (pokemon.types.size() > 1) {
+                    TextView pokemonType2 = popupView.findViewById(R.id.pokemon_second_type);
+                    pokemonType2.setText(pokemon.types.get(1)
+                                                      .name()
+                                                      .toUpperCase());
+                    pokemonType2.setBackgroundTintList(getResources().getColorStateList(pokemon.types.get(1)
+                                                                                                     .getColor()));
                 }
 
-                popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
+                setupEvolutionSwitches(popupView, pokemonMovePower, pokemon);
+
+                TextView elements_tv = popupView.findViewById(R.id.popup_elements_tv);
+                elements_tv.setGravity(Gravity.CENTER);
+                elements_tv.setTextSize(20);
+                elements_tv.setTextColor(getResources().getColor(R.color.black));
+                elements_tv.setLayoutParams(lp);
+                String elements = getElements(pokemon.types);
+                elements_tv.setText(elements);
+
+
+                popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
                 setClosePopUpButton(popupView, popupWindow);
 
             }
         };
     }
 
-    private void setClosePopUpButton(View popupView, PopupWindow popupWindow) {
-        Button closeBtn = (Button) popupView.findViewById(R.id.close_popup_btn);
-        closeBtn.setOnClickListener(new View.OnClickListener() {
+    private String getElements(List<PokemonType> types) {
+        List<String>                 str  = new ArrayList<>();
+        List<String>                 weak = new ArrayList<>();
+        List<String>                 noDmg  = new ArrayList<>();
 
-            public void onClick(View popupView) {
-                popupWindow.dismiss();
+        PokemonTypesUtils.ResultElements resultElements = PokemonTypesUtils.getElementalEffectsForType(types);
+        resultElements.getElements().forEach((type, modifier) -> sortByModifier(type, modifier, str, noDmg, weak));
+
+        return getResultingElements(str, weak, noDmg, resultElements.getImmunities());
+
+    }
+
+    private static void sortByModifier(PokemonType type,
+                                  BigDecimal modifier,
+                                  List<String> str,
+                                  List<String> noDmg,
+                                  List<String> weak) {
+        if (modifier.compareTo(BigDecimal.ONE) > 0) {
+            str.add(type.name().toLowerCase()
+                        .concat(" x ")
+                        .concat(modifier.toPlainString()));
+        } else if (modifier.equals(BigDecimal.ZERO)) {
+            noDmg.add(type.name().toLowerCase());
+        } else if (modifier.compareTo(BigDecimal.ONE) < 0) {
+            weak.add(type.name().toLowerCase()
+                         .concat(" x ")
+                         .concat(modifier.toPlainString()));
+        }
+    }
+
+    private static String getResultingElements(List<String> str,
+                                    List<String> weak,
+                                    List<String> noDmg,
+                                    Set<PokemonType> immunities) {
+        String result = "";
+        if (!str.isEmpty()) {
+            result = result.concat("VANTAGGI\n")
+                           .concat(String.join("\n", str))
+                           .concat("\n\n");
+        }
+
+        if (!weak.isEmpty()) {
+            result = result.concat("SVANTAGGI\n")
+                           .concat(String.join("\n", weak))
+                           .concat("\n\n");
+        }
+
+        if (!noDmg.isEmpty()) {
+            result = result.concat("DANNO NULLO\n")
+                           .concat(String.join("\n", noDmg))
+                           .concat("\n\n");
+        }
+
+        if (!immunities.isEmpty()) {
+            result = result.concat("IMMUNITA'\n")
+                           .concat(StringUtils.join(immunities, "\n"))
+                           .concat("\n\n");
+        }
+        return result;
+    }
+
+    private void setupEvolutionSwitches(View popupView,
+                                        TextView pokemonMovePower,
+                                        Pokemon pokemon) {
+        Switch switchSecondEvolution = popupView.findViewById(R.id.switch_second_evolution);
+        Switch switchFirstEvolution  = popupView.findViewById(R.id.switch_first_evolution);
+        switchSecondEvolution.setVisibility(View.INVISIBLE);
+        switchFirstEvolution.setVisibility(View.INVISIBLE);
+        if (pokemon.isEvolved) {
+            switchFirstEvolution.setVisibility(View.VISIBLE);
+
+            if (pokemon.isEvolvedTwoTimes) {
+                switchSecondEvolution.setVisibility(View.VISIBLE);
             }
+        }
+        setSwichesListeners(switchFirstEvolution, pokemonMovePower, switchSecondEvolution);
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void setSwichesListeners(Switch switchFirstEvolution,
+                                     TextView pokemonMovePower,
+                                     Switch switchSecondEvolution) {
+        switchFirstEvolution.setOnCheckedChangeListener((buttonView, isChecked) -> {
+
+            if (isChecked) {
+                pokemonMovePower.setText("" + (Integer.parseInt((String) pokemonMovePower.getText()) + 3));
+            } else {
+                pokemonMovePower.setText("" + (Integer.parseInt((String) pokemonMovePower.getText()) - 3));
+            }
+
+        });
+        switchSecondEvolution.setOnCheckedChangeListener((buttonView, isChecked) -> {
+
+            if (isChecked) {
+                pokemonMovePower.setText("" + (Integer.parseInt((String) pokemonMovePower.getText()) + 2));
+            } else {
+                pokemonMovePower.setText("" + (Integer.parseInt((String) pokemonMovePower.getText()) - 2));
+            }
+
         });
     }
 
-
-
+    private void setClosePopUpButton(View popupView,
+                                     PopupWindow popupWindow) {
+        Button closeBtn = popupView.findViewById(R.id.close_popup_btn);
+        closeBtn.setOnClickListener(popupView1 -> popupWindow.dismiss());
+    }
 
 
 }
