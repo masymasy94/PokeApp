@@ -17,7 +17,7 @@ import com.app.pokeapp.db.PokemonSQLiteHelper;
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MainActivity extends AppCompatActivity {
 
-    int THEME_COLOR = 0;
+//    int THEME_COLOR = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int setThemeColour(){
         TypedValue typedValue = new TypedValue();
-        getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.colorPrimary, typedValue, true);
+        getTheme().resolveAttribute(android.R.attr.colorPrimary, typedValue, true);
         return typedValue.data;
     }
 

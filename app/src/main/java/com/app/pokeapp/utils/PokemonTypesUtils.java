@@ -4,6 +4,7 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import com.app.pokeapp.R;
 import com.app.pokeapp.data.dto.ElementalEffect;
+import com.app.pokeapp.data.dto.ResultElements;
 import com.app.pokeapp.data.enums.PokemonType;
 
 import java.math.BigDecimal;
@@ -39,14 +40,15 @@ public class PokemonTypesUtils {
         types.forEach(pokemonType -> {
 
             ElementalEffect elements = ElementalEffect.getElementalEffects().get(pokemonType);
-            elements.getStrongAgainst()
-                    .forEach(str -> modifyMapValue(resultsMap, str, 0.5));
+            Objects.requireNonNull(elements)
+                   .getStrongAgainst()
+                   .forEach(str -> modifyMapValue(resultsMap, str, 0.5));
             elements.getWeakAgainst()
                     .forEach(weak -> modifyMapValue(resultsMap, weak, -0.5));
             elements.getDealsNotingTo()
-                    .forEach(ghh -> resultsMap.put(ghh, BigDecimal.ZERO));
+                    .forEach(dn -> resultsMap.put(dn, BigDecimal.ZERO));
 
-            immunities.addAll(new HashSet<>(elements.getImmuneAgainst()));
+            immunities.addAll(elements.getImmuneAgainst());
         });
 
         return new ResultElements(resultsMap, immunities);
@@ -59,23 +61,6 @@ public class PokemonTypesUtils {
                                    .add(BigDecimal.valueOf(val)));
     }
 
-    public static class ResultElements {
-        Map<PokemonType, BigDecimal> elements;
-        Set<PokemonType> immunities;
 
-        public ResultElements(Map<PokemonType, BigDecimal> elements,
-                              Set<PokemonType> immunities) {
-            this.elements   = elements;
-            this.immunities = immunities;
-        }
-
-        public Map<PokemonType, BigDecimal> getElements() {
-            return elements;
-        }
-
-        public Set<PokemonType> getImmunities() {
-            return immunities;
-        }
-    }
 
 }
