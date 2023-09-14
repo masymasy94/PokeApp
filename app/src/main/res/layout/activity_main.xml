@@ -7,15 +7,6 @@
     tools:context="com.app.pokeapp.activities.MainActivity"
     >
 
-    <android.support.v7.widget.Toolbar
-      android:id="@+id/mainToolbar"
-      android:layout_width="match_parent"
-      android:layout_height="?attr/actionBarSize"
-      android:background="?attr/colorControlHighlight"
-      android:elevation="4dp"
-      android:theme="@style/Theme.PokeApp_PURPLE"
-      android:popupTheme="@style/Theme.PokeApp_PURPLE"/>
-
     <ScrollView
       android:id="@+id/scrollViewMain"
       android:layout_width="match_parent"
@@ -52,8 +43,6 @@
               android:background="@drawable/small_round_corners"
               android:backgroundTint="@color/purple_200"
               android:text="Sfida Allenatori"/>
-
-
 
             <Button
               android:id="@+id/big_fight_btn"

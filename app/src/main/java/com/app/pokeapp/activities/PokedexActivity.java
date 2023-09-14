@@ -1,6 +1,9 @@
 package com.app.pokeapp.activities;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.SearchManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
@@ -11,9 +14,8 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.view.*;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.app.pokeapp.R;
 import com.app.pokeapp.data.custom.PokemonButton;
@@ -21,6 +23,7 @@ import com.app.pokeapp.data.dto.Pokemon;
 import com.app.pokeapp.data.dto.ResultElements;
 import com.app.pokeapp.data.enums.PokemonType;
 import com.app.pokeapp.db.PokemonSQLiteHelper;
+import com.app.pokeapp.utils.AndroidUtils;
 import com.app.pokeapp.utils.PokemonTypesUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -30,13 +33,15 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 @SuppressLint({"ResourceType", "SetTextI18n"})
 public class PokedexActivity extends AppCompatActivity {
 
-    LinearLayout              ll = null;
-    LinearLayout.LayoutParams lp = null;
+    List<PokemonButton>       pokemonButtons = new ArrayList<>();
+    LinearLayout              ll             = null;
+    LinearLayout.LayoutParams lp             = null;
 
 
     @Override
@@ -44,7 +49,6 @@ public class PokedexActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pokedex_activity);
         setInstanceValues();
-
         showPokemon();
     }
 
@@ -58,10 +62,17 @@ public class PokedexActivity extends AppCompatActivity {
         List<Pokemon> allPk = getAllPokemon();
         allPk.sort(Comparator.comparing(Pokemon::getName));
         allPk.forEach(this::addPokemonButton);
-
         if (allPk.isEmpty()) {
             showNoPokemonFoundMessage();
         }
+
+        addAllPokemonButtonsToLayout();
+    }
+
+    private void addAllPokemonButtonsToLayout() {
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(lp);
+        layoutParams.setMargins(20, 20, 20, 20);
+        pokemonButtons.forEach(btn -> ll.addView(btn, layoutParams));
     }
 
 
@@ -98,9 +109,7 @@ public class PokedexActivity extends AppCompatActivity {
         btn.setId(pokemon.id);
         btn.setOnClickListener(getOpenPokemonPopUpOnClickListener(pokemon));
 
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(lp);
-        layoutParams.setMargins(20, 20, 20, 20);
-        ll.addView(btn, layoutParams);
+        pokemonButtons.add(btn);
     }
 
     @SuppressLint("InflateParams")
@@ -169,6 +178,7 @@ public class PokedexActivity extends AppCompatActivity {
 
 
             popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+            AndroidUtils.hideKeyboard(this);
             setClosePopUpButton(popupView, popupWindow);
 
         };
@@ -287,6 +297,48 @@ public class PokedexActivity extends AppCompatActivity {
                                      PopupWindow popupWindow) {
         Button closeBtn = popupView.findViewById(R.id.close_popup_btn);
         closeBtn.setOnClickListener(popupView1 -> popupWindow.dismiss());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options_menu, menu);
+
+        SearchView searchView = (SearchView) menu.findItem(R.id.search)
+                                                 .getActionView();
+        searchView.setIconifiedByDefault(true);
+        setSearchViewOnQueryTextListener(searchView);
+
+        return true;
+    }
+
+    private void setSearchViewOnQueryTextListener(SearchView searchView) {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextChange(String searched) {
+                ll.removeAllViews();
+
+                pokemonButtons.stream()
+                              .filter(btn -> containsPokemonName(btn, searched))
+                              .forEach(btn -> ll.addView(btn));
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextSubmit(String searched) {
+                return false;
+            }
+        });
+    }
+
+    private boolean containsPokemonName(PokemonButton btn,
+                                        String searched) {
+        return StringUtils.containsIgnoreCase(getPokemonName(btn).toLowerCase(), searched.toLowerCase());
+    }
+
+    private String getPokemonName(PokemonButton btn) {
+        return StringUtils.trimToEmpty(btn.getPokemon()
+                                          .getName());
     }
 
 
