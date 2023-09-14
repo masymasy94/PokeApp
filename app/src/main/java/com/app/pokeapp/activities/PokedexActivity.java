@@ -236,7 +236,7 @@ public class PokedexActivity extends AppCompatActivity {
         }
 
         if (!noDmg.isEmpty()) {
-            result = result.concat("DANNO NULLO\n")
+            result = result.concat("DANNO NULLO SU\n")
                            .concat(String.join("\n", noDmg))
                            .concat("\n\n");
         }
