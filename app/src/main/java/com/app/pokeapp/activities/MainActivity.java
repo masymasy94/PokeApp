@@ -17,7 +17,6 @@ import com.app.pokeapp.db.PokemonSQLiteHelper;
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class MainActivity extends AppCompatActivity {
 
-//    int THEME_COLOR = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +31,13 @@ public class MainActivity extends AppCompatActivity {
         dropPokemonTable(); // TODO remove
         initializeDb();
         setButtonListenerPokedex();
+        setButtonListenerTrainers();
+        setButtonListenerChallenger();
+    }
+
+    private void setButtonListenerChallenger() {
+        Button btn = findViewById(R.id.big_fight_btn);
+//        btn.setOnClickListener(clic -> startActivity(new Intent(MainActivity.this, PokedexActivity.class)));
     }
 
     private void setButtonsColour(int color) {
@@ -62,10 +68,13 @@ public class MainActivity extends AppCompatActivity {
         dbHelper.close();
     }
 
+    private void setButtonListenerTrainers() {
+        Button btn = findViewById(R.id.fight_btn);
+        btn.setOnClickListener(clic -> startActivity(new Intent(MainActivity.this, TrainersFightActivity.class)));
+    }
 
     private void setButtonListenerPokedex() {
         Button btn = findViewById(R.id.pokedex_btn);
-
         btn.setOnClickListener(clic -> startActivity(new Intent(MainActivity.this, PokedexActivity.class)));
     }
 

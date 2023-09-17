@@ -35,7 +35,9 @@
           android:textAlignment="center"
           android:textSize="15sp"
           android:textColor="@color/black"
-          android:text="x" android:layout_marginTop="0dp" android:layout_alignParentTop="true"/>
+          android:text="x"
+          android:layout_marginTop="0dp"
+          android:layout_alignParentTop="true"/>
       </RelativeLayout>
 
       <RelativeLayout

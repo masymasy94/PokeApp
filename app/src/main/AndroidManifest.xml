@@ -28,6 +28,9 @@
         <action android:name="android.intent.action.SEARCH"/>
       </intent-filter>
     </activity>
+    <activity android:name="com.app.pokeapp.activities.TrainersFightActivity" android:exported="true">
+
+    </activity>
 
 
 

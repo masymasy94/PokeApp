@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:background="@drawable/small_round_corners"
+              android:backgroundTint="@color/white"
+              android:orientation="vertical"
+              android:gravity="top"
+              android:layout_width="match_parent"
+              android:layout_gravity="top"
+              android:layout_height="match_parent">
+
+  <AutoCompleteTextView
+    android:hint="Search pokemon..."
+    android:gravity="center"
+    android:backgroundTint="@color/super_light_blue"
+    android:textSize="30sp"
+    android:layout_marginTop="70dp"
+    android:layout_width="match_parent"
+    android:layout_height="70dp" android:id="@+id/edit_query"/>
+
+  <Button android:layout_width="wrap_content"
+          android:layout_marginTop="50dp"
+          android:background="@drawable/small_round_corners"
+          android:backgroundTint="@color/white"
+          android:layout_gravity="center"
+          android:id="@+id/close_trainers_popup_btn"
+          android:textSize="20sp"
+          android:textColor="@color/black"
+          android:text="chiudi"
+          android:layout_height="wrap_content">
+  </Button>
+</LinearLayout>

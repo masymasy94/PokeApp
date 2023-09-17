@@ -1,21 +1,14 @@
 package com.app.pokeapp.activities;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.SearchManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.*;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.app.pokeapp.R;
 import com.app.pokeapp.data.custom.PokemonButton;
@@ -33,7 +26,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 @SuppressLint({"ResourceType", "SetTextI18n"})
@@ -123,7 +115,7 @@ public class PokedexActivity extends AppCompatActivity {
 
 
             ImageView pokemonImage = popupView.findViewById(R.id.pokemon_image);
-            int resourceId = getResources().getIdentifier(pokemon.name.toLowerCase(), "drawable",
+            int resourceId = getResources().getIdentifier(getTailoredPokemonName(pokemon), "drawable",
                                                           getPackageName());
             if (resourceId > 0) {
                 pokemonImage.setImageDrawable(getResources().getDrawable(resourceId));
@@ -184,12 +176,18 @@ public class PokedexActivity extends AppCompatActivity {
         };
     }
 
+    private static String getTailoredPokemonName(Pokemon pokemon) {
+        return pokemon.name.toLowerCase()
+                           .replace(".", "")
+                           .replace(" ", "_");
+    }
+
     private String getElements(List<PokemonType> types) {
         List<String> str   = new ArrayList<>();
         List<String> weak  = new ArrayList<>();
         List<String> noDmg = new ArrayList<>();
 
-        ResultElements resultElements = PokemonTypesUtils.getElementalEffectsForType(types);
+        ResultElements resultElements = PokemonTypesUtils.getElementalEffectsForTypes(types);
         resultElements.getElements()
                       .forEach((type, modifier) -> sortByModifier(type, modifier, str, noDmg, weak));
 
@@ -296,7 +294,7 @@ public class PokedexActivity extends AppCompatActivity {
     private void setClosePopUpButton(View popupView,
                                      PopupWindow popupWindow) {
         Button closeBtn = popupView.findViewById(R.id.close_popup_btn);
-        closeBtn.setOnClickListener(popupView1 -> popupWindow.dismiss());
+        closeBtn.setOnClickListener(unused -> popupWindow.dismiss());
     }
 
     @Override
