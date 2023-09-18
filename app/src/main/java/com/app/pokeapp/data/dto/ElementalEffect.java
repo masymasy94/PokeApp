@@ -114,7 +114,7 @@ public class ElementalEffect {
             Set.of(LOTTA, VELENO),
             Set.of(PSICO),
             Set.of(),
-            Set.of(SPETTRO));
+            Set.of());
     private static final ElementalEffect ICE      = new ElementalEffect(
             Set.of(VOLANTE, TERRA, ERBA, DRAGO),
             Set.of(ACQUA, GHIACCIO),
@@ -143,7 +143,6 @@ public class ElementalEffect {
         map.put(PSICO, PSYCHIC);
         map.put(GHIACCIO, ICE);
         map.put(DRAGO, DRAGON);
-
         return map;
     }
 

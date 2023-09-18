@@ -92,11 +92,12 @@ public class PokemonTypesUtils {
         AtomicReference<Double> modifier = new AtomicReference<>(1.0);
         resultForDefender.forEach((type, mod) -> {
             if (mod.compareTo(BigDecimal.ONE) > 0) {
-                modifier.set(modifier.get() + 0.5);
-            } else {
-                modifier.set(modifier.get() - 0.5);
+                modifier.set(modifier.get() + (mod.doubleValue()-1));
             }
         });
+        if (resultForDefender.entrySet().stream().anyMatch(e -> e.getValue().compareTo(BigDecimal.ONE) < 0)){
+         modifier.set(modifier.get()-0.5);
+        }
         return modifier.get();
     }
 
