@@ -27,7 +27,6 @@ public class PokemonTypesUtils {
                                            .orElse(null);
     }
 
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static ResultElements getElementalEffectsForTypes(List<PokemonType> types) {
 

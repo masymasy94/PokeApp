@@ -32,12 +32,12 @@ public class MainActivity extends AppCompatActivity {
         initializeDb();
         setButtonListenerPokedex();
         setButtonListenerTrainers();
-        setButtonListenerChallenger();
+        setButtonListenerChallengers();
     }
 
-    private void setButtonListenerChallenger() {
+    private void setButtonListenerChallengers() {
         Button btn = findViewById(R.id.big_fight_btn);
-//        btn.setOnClickListener(clic -> startActivity(new Intent(MainActivity.this, PokedexActivity.class)));
+        btn.setOnClickListener(clic -> startActivity(new Intent(MainActivity.this, ChallengersFightActivity.class)));
     }
 
     private void setButtonsColour(int color) {
