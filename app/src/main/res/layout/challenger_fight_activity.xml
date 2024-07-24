@@ -20,17 +20,17 @@ android:id="@+id/rl_challengers">
     android:layout_centerVertical="true"/>
 
   <ImageButton
-    android:onClick="setChallengerPokemon"
-    android:scaleType="fitCenter"
-    android:background="@color/white"
-    android:src="@drawable/pokeball"
-    android:id="@+id/image_challenger_pk"
-    android:layout_height="200dp"
-    android:layout_marginBottom="5dp"
-    android:layout_width="200dp"
-    android:layout_alignParentTop="true"
-    android:layout_alignParentStart="true"
-    />
+      android:id="@+id/image_challenger_pk"
+      android:layout_width="200dp"
+      android:layout_height="200dp"
+      android:layout_alignParentStart="true"
+      android:layout_alignParentTop="true"
+      android:layout_marginStart="-2dp"
+      android:layout_marginTop="0dp"
+      android:layout_marginBottom="5dp"
+      android:background="@color/white"
+      android:scaleType="fitCenter"
+      android:src="@drawable/pokeball" />
 
   <TextView
     android:gravity="center"
@@ -75,13 +75,13 @@ android:id="@+id/rl_challengers">
 <!--  half -->
 
   <ImageButton
-    android:onClick="setMyPokemon"
+    android:onClick="setMyPokemonCh"
     android:scaleType="fitCenter"
     android:background="@color/white"
     android:src="@drawable/pokeball"
     android:layout_alignParentBottom="true"
     android:layout_alignParentEnd="true"
-    android:id="@+id/image_my_pk"
+    android:id="@+id/image_my_pk_ch"
     android:layout_height="200dp"
     android:layout_width="200dp"
     />
@@ -92,9 +92,9 @@ android:id="@+id/rl_challengers">
     android:textColor="@color/black"
     android:layout_alignParentBottom="true"
     android:layout_alignParentStart="true"
-    android:id="@+id/my_pkm_types"
+    android:id="@+id/my_pkm_types_ch"
     android:layout_height="200dp"
-    android:layout_toStartOf="@+id/image_my_pk"
+    android:layout_toStartOf="@+id/image_my_pk_ch"
     android:layout_marginEnd="5dp">
   </TextView>
   <Switch
@@ -105,14 +105,14 @@ android:id="@+id/rl_challengers">
     android:layout_height="wrap_content"
     android:layout_marginBottom="240dp"
     android:layout_alignParentBottom="true"
-    android:id="@+id/switch_1_evo_my"/>
+    android:id="@+id/switch_1_evo_my_ch"/>
   <Switch
     android:textSize="20sp"
     android:layout_marginStart="5dp"
     android:text="Seconda evoluzione"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/switch_2_evo_my"
+    android:id="@+id/switch_2_evo_my_ch"
     android:layout_alignParentBottom="true"
     android:layout_marginBottom="210dp"/>
 
@@ -123,7 +123,7 @@ android:id="@+id/rl_challengers">
     android:layout_width="match_parent"
     android:layout_alignParentBottom="true"
     android:layout_marginBottom="270dp"
-    android:id="@+id/my_pkm_move_pwr"
+    android:id="@+id/my_pkm_move_pwr_ch"
     android:layout_height="90dp">
   </TextView>
 </RelativeLayout>
