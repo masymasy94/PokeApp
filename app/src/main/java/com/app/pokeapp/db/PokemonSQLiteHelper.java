@@ -9,6 +9,7 @@ import android.support.annotation.RequiresApi;
 import com.app.pokeapp.R;
 import com.app.pokeapp.data.dto.Pokemon;
 import com.app.pokeapp.utils.PokemonTypesUtils;
+import com.app.pokeapp.utils.SQLiteUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.BufferedReader;
@@ -39,7 +40,7 @@ public class PokemonSQLiteHelper extends SQLiteOpenHelper {
 
     public void createTable(SQLiteDatabase db){
         try {
-            executeScript(R.raw.pokemon_create_table, db);
+            SQLiteUtils.executeScript(context, R.raw.pokemon_create_table, db);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -48,11 +49,11 @@ public class PokemonSQLiteHelper extends SQLiteOpenHelper {
     public void insertFirstGen(){
         SQLiteDatabase db = getWritableDatabase();
         try {
-            executeScript(R.raw.pokemon_insert_1_gen, db);
+            SQLiteUtils.executeScript(context, R.raw.pokemon_insert_1_gen, db);
         } catch (IOException e) {
             e.printStackTrace();
         }
-    };
+    }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -66,27 +67,11 @@ public class PokemonSQLiteHelper extends SQLiteOpenHelper {
         this.onCreate(db);
     }
 
-    private void executeScript(int resourceId, SQLiteDatabase db) throws IOException {
 
-        InputStream insertsStream = context.getResources().openRawResource(resourceId);
-        BufferedReader insertReader = new BufferedReader(new InputStreamReader(insertsStream));
-
-        while (insertReader.ready()) {
-            String insertStmt = insertReader.readLine();
-
-            if (StringUtils.isNotEmpty(insertStmt))
-                db.execSQL(insertStmt);
-        }
-
-        insertReader.close();
-//        db.close();
-    }
 
 //    -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     List<String> booleanTrueValues = Arrays.asList("1", "S");
-
-    // todo
 
     public List<Pokemon> getAllPokemonFromDB(){
         SQLiteDatabase db = this.getReadableDatabase();

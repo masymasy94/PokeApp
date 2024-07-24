@@ -2,6 +2,7 @@ package com.app.pokeapp.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -27,5 +28,13 @@ public class AndroidUtils {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         view.clearFocus();
+    }
+
+    public static int getThemePrimaryColor(Context context) {
+        int        colorAttr = android.R.attr.colorPrimary;
+        TypedValue outValue  = new TypedValue();
+        context.getTheme()
+               .resolveAttribute(colorAttr, outValue, true);
+        return outValue.data;
     }
 }

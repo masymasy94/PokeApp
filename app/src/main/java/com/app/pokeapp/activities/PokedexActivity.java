@@ -82,13 +82,6 @@ public class PokedexActivity extends AppCompatActivity {
         return allPk;
     }
 
-    private int getThemePrimaryColor(Context context) {
-        int        colorAttr = android.R.attr.colorPrimary;
-        TypedValue outValue  = new TypedValue();
-        context.getTheme()
-               .resolveAttribute(colorAttr, outValue, true);
-        return outValue.data;
-    }
 
     private void addPokemonButton(Pokemon pokemon) {
         PokemonButton btn = new PokemonButton(this);
@@ -96,7 +89,7 @@ public class PokedexActivity extends AppCompatActivity {
         btn.setTextSize(20);
         btn.setBackground(getResources().getDrawable(R.drawable.small_round_corners));
         btn.setText(pokemon.name);
-        btn.setBackgroundTintList(ColorStateList.valueOf(getThemePrimaryColor(this)));
+        btn.setBackgroundTintList(ColorStateList.valueOf(AndroidUtils.getThemePrimaryColor(this)));
         btn.setPokemon(pokemon);
         btn.setId(pokemon.id);
         btn.setOnClickListener(getOpenPokemonPopUpOnClickListener(pokemon));

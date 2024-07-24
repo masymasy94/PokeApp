@@ -1,17 +1,15 @@
 package com.app.pokeapp.activities;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.widget.Button;
-
 import com.app.pokeapp.R;
+import com.app.pokeapp.db.ChallengerSQLiteHelper;
 import com.app.pokeapp.db.PokemonSQLiteHelper;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
@@ -29,15 +27,22 @@ public class MainActivity extends AppCompatActivity {
 
 
         dropPokemonTable(); // TODO remove
-        initializeDb();
+        dropChallengerTable(); // TODO remove
+        initializeDB();
         setButtonListenerPokedex();
         setButtonListenerTrainers();
         setButtonListenerChallengers();
     }
 
+    private void dropChallengerTable() {
+        ChallengerSQLiteHelper dbHelper = new ChallengerSQLiteHelper(this);
+        dbHelper.dropTable();
+        dbHelper.close();
+    }
+
     private void setButtonListenerChallengers() {
         Button btn = findViewById(R.id.big_fight_btn);
-        btn.setOnClickListener(clic -> startActivity(new Intent(MainActivity.this, ChallengersFightActivity.class)));
+        btn.setOnClickListener(clic -> startActivity(new Intent(MainActivity.this, ChallengersListActivity.class)));
     }
 
     private void setButtonsColour(int color) {
@@ -46,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.big_fight_btn).setBackgroundTintList(ColorStateList.valueOf(color));
     }
 
-    private int setThemeColour(){
+    private int setThemeColour() {
         TypedValue typedValue = new TypedValue();
         getTheme().resolveAttribute(android.R.attr.colorPrimary, typedValue, true);
         return typedValue.data;
@@ -58,14 +63,27 @@ public class MainActivity extends AppCompatActivity {
         dbHelper.close();
     }
 
-    private void initializeDb() {
-        PokemonSQLiteHelper dbHelper = new PokemonSQLiteHelper(this);
+    private void initializeDB() {
+        initializePokemonDB();
+        initializeChallengersDB();
+    }
 
-        if (dbHelper.getAllPokemonFromDB().isEmpty()){
-            dbHelper.insertFirstGen();
+    private void initializeChallengersDB() {
+        ChallengerSQLiteHelper chaHelper = new ChallengerSQLiteHelper(this);
+        if (chaHelper.getAllChallengers()
+                     .isEmpty()) {
+            chaHelper.insert();
         }
+        chaHelper.close();
+    }
 
-        dbHelper.close();
+    private void initializePokemonDB() {
+        PokemonSQLiteHelper pkmHelper = new PokemonSQLiteHelper(this);
+        if (pkmHelper.getAllPokemonFromDB()
+                     .isEmpty()) {
+            pkmHelper.insertFirstGen();
+        }
+        pkmHelper.close();
     }
 
     private void setButtonListenerTrainers() {

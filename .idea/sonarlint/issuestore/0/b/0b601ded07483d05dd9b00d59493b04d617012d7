@@ -1,0 +1,26 @@
+
+s	java:S117œ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¤…ùÅûÿÿÿÿ8¢·Õ½Õ1
+k
+java:S32521"PUse static access with "android.view.ViewGroup$LayoutParams" for "MATCH_PARENT".(æ§¼™ÿÿÿÿÿ
+f
+java:S32522"PUse static access with "android.view.ViewGroup$LayoutParams" for "WRAP_CONTENT".(ØÇÛ
+N
+java:S1874Z"3Remove this use of "getDrawable"; it is deprecated.(¨Ó·Ğıÿÿÿÿ
+r
+java:S3252j"PUse static access with "android.view.ViewGroup$LayoutParams" for "MATCH_PARENT".(çªÍˆùÿÿÿÿ8Â·Õ½Õ1
+r
+java:S3252k"PUse static access with "android.view.ViewGroup$LayoutParams" for "MATCH_PARENT".(‡¯ëúÿÿÿÿ8Â·Õ½Õ1
+U
+java:S1874r"3Remove this use of "getDrawable"; it is deprecated.(Õø·†ùÿÿÿÿ8Ã·Õ½Õ1
+V
+java:S1874t"9Remove this use of "getColorStateList"; it is deprecated.(üÔ˜8Ã·Õ½Õ1
+[
+java:S1874"9Remove this use of "getColorStateList"; it is deprecated.(Ì‹´ÿÿÿÿÿ8Ä·Õ½Õ1
+W
+java:S1874‡"9Remove this use of "getColorStateList"; it is deprecated.(ôˆúÊ8Å·Õ½Õ1
+\
+java:S1874"9Remove this use of "getColorStateList"; it is deprecated.(ª²ëêüÿÿÿÿ8Å·Õ½Õ1
+W
+java:S1874•"9Remove this use of "getColorStateList"; it is deprecated.(Ïµøé8Æ·Õ½Õ1
+M
+java:S1874Ÿ"0Remove this use of "getColor"; it is deprecated.(õåË?8Ç·Õ½Õ1

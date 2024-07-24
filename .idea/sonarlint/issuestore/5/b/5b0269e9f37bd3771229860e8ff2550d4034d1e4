@@ -1,0 +1,16 @@
+
+m
+java:S1104"PMake name a static final constant or non-public and provide accessors if needed.( þÍ¾8¦Œƒ‡Þ1
+u
+java:S1104	"SMake pokemon a static final constant or non-public and provide accessors if needed.(ûì¡‡þÿÿÿÿ8¦Œƒ‡Þ1
+w
+java:S1104
+"UMake basePower a static final constant or non-public and provide accessors if needed.(òµÊ¸ÿÿÿÿÿ8¦Œƒ‡Þ1
+x
+java:S1104"VMake firstBonus a static final constant or non-public and provide accessors if needed.(Ò“§¯úÿÿÿÿ8¦Œƒ‡Þ1
+y
+java:S1104"WMake secondBonus a static final constant or non-public and provide accessors if needed.(àÌ‡úþÿÿÿÿ8¦Œƒ‡Þ1
+s
+java:S1104"VMake thirdBonus a static final constant or non-public and provide accessors if needed.(ÒÕ·Ï8¦Œƒ‡Þ1
+£
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ç½ðåúÿÿÿÿ8¨Œƒ‡Þ1
