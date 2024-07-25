@@ -1,11 +1,19 @@
 package com.app.pokeapp.activities;
 
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.PopupWindow;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -17,6 +25,7 @@ import com.app.pokeapp.utils.PokemonTypesUtils;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
@@ -32,6 +41,11 @@ public class ChallengersFightActivity extends AppCompatActivity {
         setChallengerPokemon();
     }
 
+    public void setMyPokemonCh(View view) {
+        ImageButton btn = findViewById(R.id.image_my_pk_ch);
+        inflatePopUp(view, btn);
+    }
+
     private void setChallengerPokemon() {
 
         ImageButton btn = findViewById(R.id.image_challenger_pk);
@@ -42,20 +56,19 @@ public class ChallengersFightActivity extends AppCompatActivity {
         challengerPokemon = pokeDb.getPokemonByName(challPkmName.toUpperCase());
         pokeDb.close();
 
-        setPokemonValues(btn, challPkmName, false);
-
+        setChallengerPkmValues(btn, challPkmName);
     }
 
-    private void setPokemonValues(ImageButton btn, String challPkmName, boolean isMyPokemon) {
+    private void setChallengerPkmValues(ImageButton btn, String challPkmName) {
         // hide switches
-        hideSwitchesWhenNeeded(isMyPokemon, challengerPokemon);
+        hideSwitchesWhenNeeded(false, challengerPokemon);
 
         // set move
-        setTypes(isMyPokemon, challengerPokemon);
+        setTypes(false, challengerPokemon);
 
         // set move power
-        setPower(isMyPokemon, challengerPokemon);
-        setOtherPowerIfBothPokemonAreChosen(isMyPokemon);
+        setPower(false, challengerPokemon);
+        setOtherPowerIfBothPokemonAreChosen(false);
 
         // set image
         setImage(btn, challPkmName);
@@ -170,5 +183,71 @@ public class ChallengersFightActivity extends AppCompatActivity {
                 .replace(".", "");
     }
 
+
+
+    private void inflatePopUp(View view,
+                              ImageButton btn) {
+
+        // inflate
+        LayoutInflater inflater    = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View              popupView   = inflater.inflate(R.layout.challengers_pkm_search_pop_up_window, null);
+        final PopupWindow popupWindow = new PopupWindow(popupView, MATCH_PARENT, MATCH_PARENT, true);
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+
+        // AutoCompleteTextView
+        PokemonSQLiteHelper pkmDb = new PokemonSQLiteHelper(this);
+        List<String> pkmNames = pkmDb.getAllPokemonFromDB()
+                .stream()
+                .map(Pokemon::getName)
+                .collect(Collectors.toList());
+        pkmDb.close();
+
+        ArrayAdapter<String> adapter      = new ArrayAdapter<>(this, android.R.layout.select_dialog_item, pkmNames);
+        AutoCompleteTextView autoTextView = popupView.findViewById(R.id.edit_query_ch);
+        autoTextView.setAdapter(adapter);
+        autoTextView.setThreshold(0);
+        autoTextView.setOnDismissListener(
+                () -> setPokemonValuesAndClosePopUp(btn, autoTextView, pkmNames, popupWindow));
+
+
+        // close button
+        Button closeBtn = popupView.findViewById(R.id.close_challengers_popup_btn);
+        closeBtn.setOnClickListener(unused -> popupWindow.dismiss());
+    }
+
+    private void setPokemonValuesAndClosePopUp(ImageButton btn,
+                                               AutoCompleteTextView autoTextView,
+                                               List<String> pkmNames,
+                                               PopupWindow popupWindow) {
+
+        String selectedName = autoTextView.getText()
+                .toString()
+                .replace("\n", "");
+
+        if (pkmNames.contains(selectedName)) {
+
+            PokemonSQLiteHelper pokeDb  = new PokemonSQLiteHelper(this);
+            myPokemon = pokeDb.getPokemonByName(selectedName);
+            pokeDb.close();
+
+            // swiches listeners
+
+
+            // hide switches
+            hideSwitchesWhenNeeded(true, myPokemon);
+
+            // set move
+            setTypes(true, myPokemon);
+
+            // set move power
+            setPower(true, myPokemon);
+            setOtherPowerIfBothPokemonAreChosen(true);
+
+            // set image
+            setImage(btn, selectedName);
+            popupWindow.dismiss();
+        }
+    }
 
 }
