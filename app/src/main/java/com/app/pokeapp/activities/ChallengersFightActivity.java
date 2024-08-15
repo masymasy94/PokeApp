@@ -62,6 +62,7 @@ public class ChallengersFightActivity extends AppCompatActivity {
     private void setPokemon() {
         PokemonSQLiteHelper pokeDb = new PokemonSQLiteHelper(this);
         challengerPokemon = pokeDb.getPokemonByName(challenger.pokemon.toUpperCase());
+        challengerPokemon.setStrenght(challenger.basePower);
         pokeDb.close();
     }
 
