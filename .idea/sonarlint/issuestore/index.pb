@@ -23,5 +23,13 @@ Capp/src/main/java/com/app/pokeapp/data/custom/ChallengerButton.java,7/d/7df1e2
 -app/src/main/res/raw/challengers_create_table,d/4/d4108f65a096e4e879f7ee1be36923649fc6e037
 \
 ,app/src/main/res/raw/challenger_insert_1_gen,5/5/557f9e434e2c15ce7b7aa8244b8825dd178baec3
-d
-4app/src/main/res/layout/challenger_pop_up_window.xml,4/b/4b45eac9397b0037bf1215385ad51b90108cfc15
+S
+#.idea/sonarlint/issuestore/index.pb,9/f/9fe84ebb15faf917b7def6236dba604453cc61e0
+e
+5app/src/main/res/layout/challenger_fight_activity.xml,b/b/bb784d771fda10c930831541d0d23f061661163c
+y
+Iapp/src/main/java/com/app/pokeapp/activities/ChallengersListActivity.java,e/f/efa8ed52ab637c60404fdc1b19b4033bb1bc247c
+]
+-.idea/sonarlint/securityhotspotstore/index.pb,8/8/88a9255124c95bdc913197c120a8d560edc59c8e
+Y
+)app/src/main/res/raw/pokemon_insert_1_gen,c/e/ce2e96f2ff097347526aa871c3034915fd027fbd

@@ -79,7 +79,7 @@ public class ChallengersListActivity extends AppCompatActivity {
     private void getListener(Challenger challenger) {
         startActivity(
                 new Intent(ChallengersListActivity.this, ChallengersFightActivity.class)
-                        .putExtra("chPkmName", challenger.pokemon)
+                        .putExtra("challenger", challenger.name)
         );
     }
 

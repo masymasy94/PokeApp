@@ -92,7 +92,7 @@ INSERT INTO pokemon (name, strenght, type, second_type, is_evolved, is_two_times
 INSERT INTO pokemon (name, strenght, type, second_type, is_evolved, is_two_times_evolved, move) VALUES ('GASTLY',2,'SPETTRO','VELENO','','','leccata ');
 INSERT INTO pokemon (name, strenght, type, second_type, is_evolved, is_two_times_evolved, move) VALUES ('HAUNTER',4,'SPETTRO','VELENO','S','','ombra notturna ');
 INSERT INTO pokemon (name, strenght, type, second_type, is_evolved, is_two_times_evolved, move) VALUES ('GENGAR',7,'SPETTRO','VELENO','S','S','mangiasogni ');
-INSERT INTO pokemon (name, strenght, type, second_type, is_evolved, is_two_times_evolved, move) VALUES ('ONYX',7,'ROCCIA','TERRA','','','schianto ');
+INSERT INTO pokemon (name, strenght, type, second_type, is_evolved, is_two_times_evolved, move) VALUES ('ONIX',7,'ROCCIA','TERRA','','','schianto ');
 INSERT INTO pokemon (name, strenght, type, second_type, is_evolved, is_two_times_evolved, move) VALUES ('DROWZEE',4,'PSICO','','','','confusione ');
 INSERT INTO pokemon (name, strenght, type, second_type, is_evolved, is_two_times_evolved, move) VALUES ('HYPNO',6,'PSICO','','S','','psichico ');
 INSERT INTO pokemon (name, strenght, type, second_type, is_evolved, is_two_times_evolved, move) VALUES ('KRABBY',3,'ACQUA','','','','presa ');

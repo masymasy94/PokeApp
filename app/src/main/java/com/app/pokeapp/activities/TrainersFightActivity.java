@@ -92,9 +92,6 @@ public class TrainersFightActivity extends AppCompatActivity {
             pokeDb.close();
             setPokemon(isMyPokemon, pokemon);
 
-            // swiches listeners
-
-
             // hide switches
             hideSwitchesWhenNeeded(isMyPokemon, pokemon);
 

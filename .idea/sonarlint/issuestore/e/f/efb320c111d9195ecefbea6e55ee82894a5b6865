@@ -1,13 +1,23 @@
 
-y
-java:S1172`"1Remove this unused method parameter "challenger".(«ÔžÔùÿÿÿÿ8æ€ºªŽ2J$3000165c-3560-40fd-b724-860d56374d8a
-t
-java:S1135i"2Complete the task associated to this TODO comment.(Ý›ý\8Š¾¿ªŽ2J$ca0fe80f-73c9-4a82-9f26-2a20898255f4
-{
-java:S1135È"2Complete the task associated to this TODO comment.(¯ì´Íùÿÿÿÿ8ì€ºªŽ2J$4166bd75-1fe3-497d-a7a7-052026f6a2af
+Ä
+java:S1186s"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(áÉÿÿ8î° ›•2J$aeee4228-804f-4c03-9e9e-4d1a224e2cab
+‚
+java:S1854{":Remove this useless assignment to local variable "bonus1".(œó³…øÿÿÿÿ8û° ›•2J$fd9c3dbd-181e-45dd-8a64-325c4e5fffaf
+}
+java:S1854z":Remove this useless assignment to local variable "bonus2".(¡ßý‡8ü° ›•2J$40343a7e-3f31-489f-aac0-e42d97506837
+‚
+java:S1854y":Remove this useless assignment to local variable "bonus3".(Ó•¢åûÿÿÿÿ8ý° ›•2J$dc9f5824-1409-4954-8d34-8ab55e09141b
 k
-java:S2153ª""Remove the boxing of "finalPower".(ßí•Ýüÿÿÿÿ8í€ºªŽ2J$a4ca78e0-9b38-4d3f-afe1-b490d6a4b5fe
+java:S2153ˆ""Remove the boxing of "finalPower".(ßí•Ýüÿÿÿÿ8í€ºªŽ2J$0d5c94c1-f20c-47c2-8c20-c74a403130d9
 k
-java:S2153­""Remove the boxing of "finalPower".(Ÿ¤Ößûÿÿÿÿ8í€ºªŽ2J$c209f4e5-46a8-4325-8d6b-7c900a830977
+java:S2153‹""Remove the boxing of "finalPower".(Ÿ¤Ößûÿÿÿÿ8í€ºªŽ2J$6870b44a-f614-43b9-b244-96abf495cdbc
 {
-java:S1135­"2Complete the task associated to this TODO comment.(Ÿ¤Ößûÿÿÿÿ8í€ºªŽ2J$9b4c61bd-3244-4190-a3e8-3c50ccbfc66f
+java:S1135‹"2Complete the task associated to this TODO comment.(Ÿ¤Ößûÿÿÿÿ8í€ºªŽ2J$dfdd39c6-326e-4b4c-a6a7-6ccec6a05dad
+{
+java:S1135˜"2Complete the task associated to this TODO comment.(¯ì´Íùÿÿÿÿ8ì€ºªŽ2J$2cdd7052-0a27-4765-a57e-6f91e8fac8c8
+k
+java:S2153»""Remove the boxing of "finalPower".(ßí•Ýüÿÿÿÿ8†± ›•2J$f765e153-6636-4656-b918-dc4a2afa67ce
+k
+java:S2153¾""Remove the boxing of "finalPower".(Ÿ¤Ößûÿÿÿÿ8†± ›•2J$07ed093b-e754-499a-aee7-f13e61caa568
+{
+java:S1135¾"2Complete the task associated to this TODO comment.(Ÿ¤Ößûÿÿÿÿ8†± ›•2J$26028a87-a7f0-4f56-8070-782de7db9e2a

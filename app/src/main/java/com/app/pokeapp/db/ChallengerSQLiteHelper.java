@@ -69,6 +69,21 @@ public class ChallengerSQLiteHelper extends SQLiteOpenHelper {
         return all;
     }
 
+    public Challenger getChallengerByName(String name) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_CHALLENGER,
+                new String[]{"name", "pokemon", "base_power", "first_bonus", "second_bonus", "third_bonus"},
+                " name = ?", new String[]{ name },
+                null, null, null, null);
+
+        if (cursor != null)
+            cursor.moveToFirst();
+        else
+            return null;
+
+        return getChallengerFromDbCursor(cursor);
+    }
+
     private Challenger getChallengerFromDbCursor(Cursor cursor) {
 
         Challenger cha = new Challenger();
