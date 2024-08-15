@@ -163,7 +163,7 @@ public class ChallengersFightActivity extends AppCompatActivity {
     private void setPower(boolean isMyPokemon,
                           Pokemon pokemon) {
 
-        TextView powerOfMove = findViewById(R.id.my_pkm_move_pwr_ch);
+        TextView powerOfMove = isMyPokemon ? findViewById(R.id.my_pkm_move_pwr_ch) : findViewById(R.id.challenger_pkm_move_pwr);
         Switch evo2 = findViewById(R.id.switch_2_evo_my_ch);
         Switch evo1 = findViewById(R.id.switch_1_evo_my_ch);
 
@@ -172,10 +172,10 @@ public class ChallengersFightActivity extends AppCompatActivity {
 
         int basePower = pokemon.strenght;
         int evolutionPower = 0;
-        if (evo1.isChecked()) {
+        if (evo1.isChecked() && isMyPokemon) {
             evolutionPower = evolutionPower + 3;
         }
-        if (evo2.isChecked()) {
+        if (evo2.isChecked() && isMyPokemon) {
             evolutionPower = evolutionPower + 2;
         }
 
