@@ -34,10 +34,15 @@
     <activity android:name="com.app.pokeapp.activities.ChallengersListActivity"
               android:exported="true">
     </activity>
+    <activity android:name="com.app.pokeapp.activities.RandomsListActivity"
+        android:exported="true">
+    </activity>
     <activity android:name="com.app.pokeapp.activities.ChallengersFightActivity"
         android:exported="true">
     </activity>
-
+    <activity android:name="com.app.pokeapp.activities.RandomsFightActivity"
+        android:exported="true">
+    </activity>
   </application>
 
 </manifest>

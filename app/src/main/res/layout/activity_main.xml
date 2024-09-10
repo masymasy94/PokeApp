@@ -55,6 +55,16 @@
               android:backgroundTint="@color/purple_200"
               android:text="Sfida Capopalestra"/>
 
+            <Button
+                android:id="@+id/random_fight_btn"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/small_round_corners"
+                android:layout_height="wrap_content"
+                android:elevation="15dp"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/purple_200"
+                android:text="Incontri Casuali"/>
 
         </LinearLayout>
     </ScrollView>

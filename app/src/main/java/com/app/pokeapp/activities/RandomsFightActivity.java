@@ -20,9 +20,11 @@ import android.widget.TextView;
 import com.app.pokeapp.R;
 import com.app.pokeapp.data.dto.Challenger;
 import com.app.pokeapp.data.dto.Pokemon;
+import com.app.pokeapp.data.dto.Random;
 import com.app.pokeapp.data.enums.PokemonType;
 import com.app.pokeapp.db.ChallengerSQLiteHelper;
 import com.app.pokeapp.db.PokemonSQLiteHelper;
+import com.app.pokeapp.db.RandomSQLiteHelper;
 import com.app.pokeapp.utils.PokemonTypesUtils;
 
 import org.apache.commons.lang3.StringUtils;
@@ -31,76 +33,76 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class ChallengersFightActivity extends AppCompatActivity {
+public class RandomsFightActivity extends AppCompatActivity {
 
     Pokemon myPokemon = null;
-    Pokemon challengerPokemon = null;
-    Challenger challenger = null;
+    Pokemon randomPokemon = null;
+    Random random = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.challenger_fight_activity);
-        setChallengerPokemon();
+        setContentView(R.layout.random_fight_activity);
+        setRandomPokemon();
     }
 
-    public void setMyPokemonCh(View view) {
-        ImageButton btn = findViewById(R.id.image_my_pk_ch);
+    public void setMyPokemonRdm(View view) {
+        ImageButton btn = findViewById(R.id.image_my_pk_rdm);
         inflatePopUp(view, btn);
     }
 
-    private void setChallengerPokemon() {
+    private void setRandomPokemon() {
 
-        ImageButton btn = findViewById(R.id.image_challenger_pk);
+        ImageButton btn = findViewById(R.id.image_random_pk);
 
-        setChallenger();
+        setRandom();
         setPokemon();
 
-        setChallengerPkmValues(btn, challenger.pokemon);
+        setRandomPkmValues(btn, random.pokemon);
     }
 
     private void setPokemon() {
         PokemonSQLiteHelper pokeDb = new PokemonSQLiteHelper(this);
-        challengerPokemon = pokeDb.getPokemonByName(challenger.pokemon.toUpperCase());
-        challengerPokemon.setStrenght(challenger.basePower);
+        randomPokemon = pokeDb.getPokemonByName(random.pokemon.toUpperCase());
+        randomPokemon.setStrenght(random.basePower);
         pokeDb.close();
     }
 
-    private void setChallenger() {
-        String challName = StringUtils.trimToEmpty(getIntent().getStringExtra("challenger"));
-        ChallengerSQLiteHelper db = new ChallengerSQLiteHelper(this);
-        challenger = db.getChallengerByName(challName);
+    private void setRandom() {
+        String rdmName = StringUtils.trimToEmpty(getIntent().getStringExtra("random"));
+        RandomSQLiteHelper db = new RandomSQLiteHelper(this);
+        random = db.getRandomByName(rdmName);
         db.close();
     }
 
-    private void setChallengerPkmValues(ImageButton btn, String challPkmName) {
+    private void setRandomPkmValues(ImageButton btn, String rdmPkmName) {
         // hide switches
-        setSwichesListenersForChallanger();
+        setSwichesListenersForRandom();
 
         // set move
-        setTypes(false, challengerPokemon);
+        setTypes(false, randomPokemon);
 
         // set move power
-        setChallengerPower(challengerPokemon, 0);
+        setRandomPower(randomPokemon, 0);
         setOtherPowerIfBothPokemonAreChosen(false);
 
         // set image
-        setImage(btn, challPkmName);
+        setImage(btn, rdmPkmName);
     }
 
-    private void setSwichesListenersForChallanger() {
-        Switch bonus3 = findViewById(R.id.switch_3_bonus_challenger);
-        Switch bonus2 = findViewById(R.id.switch_2_bonus_challenger);
-        Switch bonus1 = findViewById(R.id.switch_1_bonus_challenger);
-        bonus1.setOnCheckedChangeListener((buttonView, isChecked) -> uncheckAndSetChallengerPower(bonus1, bonus2, bonus3, challenger.firstBonus));
-        bonus2.setOnCheckedChangeListener((buttonView, isChecked) -> uncheckAndSetChallengerPower(bonus2, bonus3, bonus1, challenger.secondBonus));
-        bonus3.setOnCheckedChangeListener((buttonView, isChecked) -> uncheckAndSetChallengerPower(bonus3, bonus2, bonus1, challenger.thirdBonus));
+    private void setSwichesListenersForRandom() {
+        Switch bonus3 = findViewById(R.id.switch_3_bonus_random);
+        Switch bonus2 = findViewById(R.id.switch_2_bonus_random);
+        Switch bonus1 = findViewById(R.id.switch_1_bonus_random);
+        bonus1.setOnCheckedChangeListener((buttonView, isChecked) -> uncheckAndSetRandomPower(bonus1, bonus2, bonus3, random.firstBonus));
+        bonus2.setOnCheckedChangeListener((buttonView, isChecked) -> uncheckAndSetRandomPower(bonus2, bonus3, bonus1, random.secondBonus));
+        bonus3.setOnCheckedChangeListener((buttonView, isChecked) -> uncheckAndSetRandomPower(bonus3, bonus2, bonus1, random.thirdBonus));
     }
 
-    private void uncheckAndSetChallengerPower(Switch activeSwitch, Switch bonusToUncheck, Switch bonusToUncheck2, int activeBonus) {
-        Switch bonus3 = findViewById(R.id.switch_3_bonus_challenger);
-        Switch bonus2 = findViewById(R.id.switch_2_bonus_challenger);
-        Switch bonus1 = findViewById(R.id.switch_1_bonus_challenger);
+    private void uncheckAndSetRandomPower(Switch activeSwitch, Switch bonusToUncheck, Switch bonusToUncheck2, int activeBonus) {
+        Switch bonus3 = findViewById(R.id.switch_3_bonus_random);
+        Switch bonus2 = findViewById(R.id.switch_2_bonus_random);
+        Switch bonus1 = findViewById(R.id.switch_1_bonus_random);
 
         bonus1.setOnCheckedChangeListener((buttonView, isChecked) -> doNothing());
         bonus2.setOnCheckedChangeListener((buttonView, isChecked) -> doNothing());
@@ -108,25 +110,25 @@ public class ChallengersFightActivity extends AppCompatActivity {
 
         bonusToUncheck.setChecked(false);
         bonusToUncheck2.setChecked(false);
-        setSwichesListenersForChallanger();
+        setSwichesListenersForRandom();
 
-        setChallengerPower(challengerPokemon, !activeSwitch.isChecked() ? 0 : activeBonus);
+        setRandomPower(randomPokemon, !activeSwitch.isChecked() ? 0 : activeBonus);
     }
 
     private void doNothing() {
     }
 
 
-    private void setChallengerPower(Pokemon challengerPokemon, int dicePower) {
-        TextView powerOfMove = findViewById(R.id.challenger_pkm_move_pwr);
+    private void setRandomPower(Pokemon randomPokemon, int dicePower) {
+        TextView powerOfMove = findViewById(R.id.random_pkm_move_pwr);
         powerOfMove.setTextColor(getResources().getColor(R.color.black));
 
 
-        int basePower = challenger.basePower;
+        int basePower = random.basePower;
 
         double typedModifier = 1.0;
         if (myPokemon != null) {
-            typedModifier = PokemonTypesUtils.calculateTypedModifier(challengerPokemon.types, myPokemon.types);
+            typedModifier = PokemonTypesUtils.calculateTypedModifier(randomPokemon.types, myPokemon.types);
         }
 
         double finalPower = Math.floor(((basePower + dicePower) * typedModifier));
@@ -151,17 +153,17 @@ public class ChallengersFightActivity extends AppCompatActivity {
     }
 
     private void setOtherPowerIfBothPokemonAreChosen(boolean isMyPokemon) {
-        if (myPokemon != null && challengerPokemon != null) {
-            setPower(!isMyPokemon, isMyPokemon ? challengerPokemon : myPokemon);
+        if (myPokemon != null && randomPokemon != null) {
+            setPower(!isMyPokemon, isMyPokemon ? randomPokemon : myPokemon);
         }
     }
 
     private void setPower(boolean isMyPokemon,
                           Pokemon pokemon) {
 
-        TextView powerOfMove = isMyPokemon ? findViewById(R.id.my_pkm_move_pwr_ch) : findViewById(R.id.challenger_pkm_move_pwr);
-        Switch evo2 = findViewById(R.id.switch_2_evo_my_ch);
-        Switch evo1 = findViewById(R.id.switch_1_evo_my_ch);
+        TextView powerOfMove = isMyPokemon ? findViewById(R.id.my_pkm_move_pwr_rdm) : findViewById(R.id.random_pkm_move_pwr);
+        Switch evo2 = findViewById(R.id.switch_2_evo_my_rdm);
+        Switch evo1 = findViewById(R.id.switch_1_evo_my_rdm);
 
         powerOfMove.setTextColor(getResources().getColor(R.color.black));
 
@@ -176,8 +178,8 @@ public class ChallengersFightActivity extends AppCompatActivity {
         }
 
         double typedModifier = 1.0;
-        if (myPokemon != null && challengerPokemon != null) {
-            typedModifier = PokemonTypesUtils.calculateTypedModifier(pokemon.types, isMyPokemon ? challengerPokemon.types : myPokemon.types);
+        if (myPokemon != null && randomPokemon != null) {
+            typedModifier = PokemonTypesUtils.calculateTypedModifier(pokemon.types, isMyPokemon ? randomPokemon.types : myPokemon.types);
         }
 
         double finalPower = Math.floor(((basePower + evolutionPower) * typedModifier));
@@ -191,9 +193,9 @@ public class ChallengersFightActivity extends AppCompatActivity {
                           Pokemon pokemon) {
         TextView textView;
         if (isMyPokemon) {
-            textView = findViewById(R.id.my_pkm_types_ch);
+            textView = findViewById(R.id.my_pkm_types_rdm);
         } else {
-            textView = findViewById(R.id.challenger_pkm_types);
+            textView = findViewById(R.id.random_pkm_types);
         }
 
         String types = pokemon.types.stream().map(PokemonType::name).collect(Collectors.joining("\n"));
@@ -201,8 +203,8 @@ public class ChallengersFightActivity extends AppCompatActivity {
     }
 
     private void hideSwitchesWhenNeededForMyPkm(Pokemon pokemon) {
-        Switch evo2 = findViewById(R.id.switch_2_evo_my_ch);
-        Switch evo1 = findViewById(R.id.switch_1_evo_my_ch);
+        Switch evo2 = findViewById(R.id.switch_2_evo_my_rdm);
+        Switch evo1 = findViewById(R.id.switch_1_evo_my_rdm);
 
         evo2.setVisibility(View.VISIBLE);
         evo1.setVisibility(View.VISIBLE);
