@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="colorPrimary">#212121</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#757575</color>
+
+    <color name="background_dark_gradient_start">#1c1c1c</color>
+    <color name="background_dark_gradient_center">#2c2c2c</color>
+    <color name="background_dark_gradient_end">#383838</color>
+
+    <!-- NUOVI COLORI ROSSO PASTELLO PER I BOTTONI -->
+    <color name="button_pastel_red_normal_start">#FF8A80</color> <!-- Rosso pastello chiaro -->
+    <color name="button_pastel_red_normal_end">#FF5252</color>   <!-- Rosso pastello leggermente più scuro -->
+    <color name="button_pastel_red_pressed_start">#FF5252</color><!-- Rosso pastello più scuro per lo stato premuto -->
+    <color name="button_pastel_red_pressed_end">#D50000</color>    <!-- Rosso più intenso per lo stato premuto -->
+    <color name="button_text_color_on_red">#FFFFFF</color>       <!-- Testo bianco per buon contrasto sul rosso -->
+    <color name="button_stroke_color_red">#B71C1C</color>      <!-- Un rosso scuro per il bordo, se lo usi -->
+
+    <!-- Colori testo per tema scuro (invariati) -->
+    <color name="text_primary_dark_theme">#FFFFFF</color>
+    <color name="text_secondary_dark_theme">#BDBDBD</color>
+
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="light_purple">#8F62D1</color>
@@ -25,4 +46,22 @@
     <color name="dark_purple">#C8400595</color>
     <color name="dark_pink">#B2D851C2</color>
     <color name="purplish_pink">#D0FF00AA</color>
+<!--    <color name="colorPrimary">#212121</color> &lt;!&ndash; Grigio scuro quasi nero per elementi primari &ndash;&gt;-->
+<!--    <color name="colorPrimaryDark">#000000</color> &lt;!&ndash; Nero per la status bar &ndash;&gt;-->
+<!--    <color name="colorAccent">#757575</color> &lt;!&ndash; Un grigio medio per accenti o testo secondario &ndash;&gt;-->
+
+<!--    <color name="background_dark_gradient_start">#1c1c1c</color>-->
+<!--    <color name="background_dark_gradient_center">#2c2c2c</color>-->
+<!--    <color name="background_dark_gradient_end">#383838</color>-->
+
+    <color name="button_gradient_start">#424242</color>
+    <color name="button_gradient_end">#616161</color>
+    <color name="button_pressed_gradient_start">#303030</color>
+    <color name="button_pressed_gradient_end">#505050</color>
+    <color name="button_text_color">#FFFFFF</color>
+    <color name="button_stroke_color">#757575</color>
+
+<!--    <color name="text_primary_dark_theme">#FFFFFF</color>-->
+<!--    <color name="text_secondary_dark_theme">#BDBDBD</color>-->
+
 </resources>

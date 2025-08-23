@@ -22,4 +22,23 @@
         <item name="colorAccent">@color/teal_200</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="SplashThemeFullScreen" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item> <!-- Rimuove un'eventuale ombra sotto l'ActionBar (anche se NoActionBar dovrebbe già farlo) -->
+        <!-- Imposta direttamente lo sfondo della finestra per un caricamento più rapido dell'immagine -->
+        <item name="android:windowBackground">@drawable/pokemon_mt</item>
+    </style>
+
+    <style name="MainScreenButton">
+        <item name="android:layout_width">match_parent</item> <!-- Bottoni a larghezza piena nel LinearLayout -->
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/button_custom_selector</item>
+        <item name="android:textColor">@color/button_text_color</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">14dp</item>
+        <item name="android:elevation">4dp</item> <!-- Leggera ombra per un effetto sollevato -->
+    </style>
 </resources>

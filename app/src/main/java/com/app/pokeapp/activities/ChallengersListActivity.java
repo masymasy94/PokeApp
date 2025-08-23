@@ -23,12 +23,12 @@ import java.util.List;
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class ChallengersListActivity extends AppCompatActivity {
 
-    List<ChallengerButton>    challengerButtons = new ArrayList<>();
-    LinearLayout              ll                = null;
-    LinearLayout.LayoutParams lp                = null;
+    List<ChallengerButton> challengerButtons = new ArrayList<>();
+    LinearLayout ll = null;
+    LinearLayout.LayoutParams lp = null;
 
 
-    Pokemon myPokemon    = null;
+    Pokemon myPokemon = null;
     Pokemon enemyPokemon = null;
 
 
@@ -54,13 +54,13 @@ public class ChallengersListActivity extends AppCompatActivity {
         ll = findViewById(R.id.challengers_ll);
         lp = new LinearLayout.LayoutParams(
                 new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                                              LinearLayout.LayoutParams.WRAP_CONTENT));
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
         lp.setMargins(50, 20, 50, 20);
     }
 
     private List<Challenger> getAllChallengers() {
-        ChallengerSQLiteHelper db      = new ChallengerSQLiteHelper(this);
-        List<Challenger>       allChas = db.getAllChallengers();
+        ChallengerSQLiteHelper db = new ChallengerSQLiteHelper(this);
+        List<Challenger> allChas = db.getAllChallengers();
         db.close();
         return allChas;
     }
